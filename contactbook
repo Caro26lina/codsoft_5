@@ -1,0 +1,80 @@
+class Contactbook:
+    contacts = []
+
+    def __init__(self, name, phn, email):
+        self.name = name
+        self.phn = phn
+        self.email = email
+        Contactbook.contacts.append(self)
+
+    def display_contact_list(self):
+        print('Name:', self.name)
+        print('Phone no:', self.phn)
+        print('Email:', self.email)
+
+    def update(self, name=None, phn=None, email=None):
+        if name is not None:
+            self.name = name
+        if phn is not None:
+            self.phn = phn
+        if email is not None:
+            self.email = email
+        print(f"Updated details for name {self.name}")
+
+    @classmethod
+    def delete(cls, name):
+        for contact in cls.contacts:
+            if contact.name == name:
+                cls.contacts.remove(contact)
+                print(f"Deleted contact with name {name}")
+                return
+        print(f"Contact with name {name} not found")
+
+    @classmethod
+    def add_contact(cls, name, phn, email):
+        return cls(name, phn, email)
+
+    @classmethod
+    def search_contact(cls, name):
+        for contact in cls.contacts:
+            if contact.name.lower() == name.lower():
+                return contact
+        return None
+
+
+con1 = Contactbook("Carolina", '1234567890', 'lina@gmail.com')
+con2 = Contactbook("Sajeeth", '6759403213', 'sajeeth@gmail.com')
+con3 = Contactbook("Infant", '9087654321', 'infant@gmail.com')
+
+
+print("Contact details")
+con1.display_contact_list()
+con2.display_contact_list()
+con3.display_contact_list()
+
+
+con4 = Contactbook.add_contact('Caro', '6587321065', 'caro@gmail.com')
+print("\nNew contact details")
+con4.display_contact_list()
+
+# Searching for a contact
+print("\nSearching contact with name Sajeeth")
+f_contact = Contactbook.search_contact('Sajeeth')
+if f_contact:
+    f_contact.display_contact_list()
+else:
+    print("Contact not found")
+
+
+print("\nUpdate contact con3")
+con3.update(name="Infant Raj", email='raj@gmail.com')
+con3.display_contact_list()
+
+
+print("\nDelete contact Caro")
+Contactbook.delete('Caro')
+
+
+print("\nAll Contacts!")
+for contact in Contactbook.contacts:
+    contact.display_contact_list()
